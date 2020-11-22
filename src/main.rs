@@ -1,6 +1,5 @@
 use std::{
     fmt,
-    io::{self, prelude::*},
     ops::DerefMut,
     sync::{Arc, Mutex},
 };
@@ -13,19 +12,6 @@ mod game;
 mod interval;
 mod note;
 mod note_name;
-
-fn get_next_input() -> io::Result<Option<String>> {
-    let mut buf = String::new();
-    io::stdin().lock().read_line(&mut buf)?;
-
-    buf.truncate(buf.trim_end().len()); // Remove trailing newline.
-
-    if buf.is_empty() || buf == "exit" {
-        Ok(None)
-    } else {
-        Ok(Some(buf))
-    }
-}
 
 #[derive(fmt::Debug)]
 struct Options {

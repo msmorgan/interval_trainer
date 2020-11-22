@@ -1,8 +1,7 @@
-use std::{io, io::Write};
+use std::io::{self, prelude::*};
 
-use rand::{seq::SliceRandom, Rng};
+use rand::prelude::*;
 
-use super::{STANDARD_CHORD_QUALITIES, STANDARD_INTERVALS, STANDARD_NOTES};
 use crate::{
     chord::quality::ChordQuality,
     game::scorekeeper::Scorekeeper,
@@ -10,12 +9,27 @@ use crate::{
     note::Note,
 };
 
+use super::{STANDARD_CHORD_QUALITIES, STANDARD_INTERVALS, STANDARD_NOTES};
+
+fn get_next_input() -> io::Result<Option<String>> {
+    let mut buf = String::new();
+    io::stdin().lock().read_line(&mut buf)?;
+
+    buf.truncate(buf.trim_end().len()); // Remove trailing newline.
+
+    if buf.is_empty() || buf == "exit" {
+        Ok(None)
+    } else {
+        Ok(Some(buf))
+    }
+}
+
 pub trait Round {
     fn play(&self, scorekeeper: &mut Scorekeeper) {
         print!("{}: ", self.prompt());
         io::stdout().flush().unwrap();
 
-        let input = match crate::get_next_input().unwrap() {
+        let input = match get_next_input().unwrap() {
             Some(s) => s,
             None => scorekeeper.report_and_exit(),
         };

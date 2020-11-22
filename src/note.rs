@@ -1,5 +1,6 @@
-use crate::{accidental::Accidental, interval::canonical::CanonicalInterval, note_name::NoteName};
 use std::{fmt, ops, str::FromStr};
+
+use crate::{accidental::Accidental, interval::canonical::CanonicalInterval, note_name::NoteName};
 
 #[derive(fmt::Debug, Copy, Clone)]
 pub struct Note(pub NoteName, pub Accidental);
