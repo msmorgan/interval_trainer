@@ -1,5 +1,6 @@
 use crate::{chord::quality::ChordQuality, interval::canonical::CanonicalInterval, note::Note};
 
+pub mod mode;
 pub mod round;
 pub mod scorekeeper;
 

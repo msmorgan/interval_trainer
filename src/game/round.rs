@@ -1,10 +1,14 @@
+use std::{io, io::Write};
+
+use rand::{seq::SliceRandom, Rng};
+
 use super::{STANDARD_CHORD_QUALITIES, STANDARD_INTERVALS, STANDARD_NOTES};
 use crate::{
-    chord::quality::ChordQuality, game::scorekeeper::Scorekeeper,
-    interval::canonical::CanonicalInterval, note::Note,
+    chord::quality::ChordQuality,
+    game::scorekeeper::Scorekeeper,
+    interval::canonical::CanonicalInterval,
+    note::Note,
 };
-use rand::{seq::SliceRandom, Rng};
-use std::{io, io::Write};
 
 pub trait Round {
     fn play(&self, scorekeeper: &mut Scorekeeper) {

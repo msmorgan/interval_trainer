@@ -7,15 +7,7 @@ use std::{
 
 use rand::prelude::*;
 
-use crate::{
-    accidental::Accidental,
-    chord::quality::{sevenths, triads, ChordQuality},
-    game::scorekeeper::Scorekeeper,
-    interval::canonical::CanonicalInterval,
-    note::Note,
-    note_name::NoteName,
-};
-use game::round::{ChordsRound, IntervalsRound, Round};
+use crate::game::{mode::GameMode, scorekeeper::Scorekeeper};
 
 mod accidental;
 mod chord;
@@ -37,13 +29,6 @@ fn get_next_input() -> io::Result<Option<String>> {
     }
 }
 
-#[derive(fmt::Debug, Copy, Clone)]
-enum GameMode {
-    Mixed,
-    Intervals,
-    Chords,
-}
-
 #[derive(fmt::Debug)]
 struct Options {
     mode: GameMode,
@@ -53,19 +38,6 @@ impl Default for Options {
     fn default() -> Self {
         Options {
             mode: GameMode::Mixed,
-        }
-    }
-}
-
-impl GameMode {
-    pub fn play_round(&self, rng: &mut impl Rng, scorekeeper: &mut Scorekeeper) {
-        match *self {
-            GameMode::Mixed => {
-                let round_mode = [GameMode::Intervals, GameMode::Chords].choose(rng).unwrap();
-                round_mode.play_round(rng, scorekeeper);
-            }
-            GameMode::Intervals => IntervalsRound::new(rng).play(scorekeeper),
-            GameMode::Chords => ChordsRound::new(rng).play(scorekeeper),
         }
     }
 }

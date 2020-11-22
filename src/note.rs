@@ -124,12 +124,11 @@ impl FromStr for Note {
 
 #[cfg(test)]
 mod tests {
-    use crate::*;
+    use super::*;
 
     #[test]
     fn note_equality() {
-        use Accidental::*;
-        use NoteName::*;
+        use self::{Accidental::*, NoteName::*};
         assert_eq!(Note(D, Sharp), Note(E, Flat));
     }
 }
