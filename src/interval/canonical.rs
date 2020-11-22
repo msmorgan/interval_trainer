@@ -33,6 +33,36 @@ impl CanonicalInterval {
     }
 }
 
+impl From<u8> for CanonicalInterval {
+    fn from(size: u8) -> Self {
+        use CanonicalInterval::*;
+        match size {
+            0 => Unison,
+            1 => MinorSecond,
+            2 => MajorSecond,
+            3 => MinorThird,
+            4 => MajorThird,
+            5 => PerfectFourth,
+            6 => Tritone,
+            7 => PerfectFifth,
+            8 => MinorSixth,
+            9 => MajorSixth,
+            10 => MinorSeventh,
+            11 => MajorSeventh,
+            12 => Octave,
+            13 => MinorNinth,
+            14 => MajorNinth,
+            15 => MinorTenth,
+            16 => MajorTenth,
+            17 => PerfectEleventh,
+            19 => PerfectTwelfth,
+            20 => MinorThirteenth,
+            21 => MajorThirteenth,
+            _ => panic!("Invalid CanonicalInterval size: {}.", size),
+        }
+    }
+}
+
 impl fmt::Display for CanonicalInterval {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         use CanonicalInterval::*;

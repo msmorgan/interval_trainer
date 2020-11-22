@@ -1,9 +1,6 @@
 use std::fmt;
 
-use crate::{
-    interval::canonical::CanonicalInterval,
-    note::Note,
-};
+use crate::{interval::canonical::CanonicalInterval, note::Note};
 
 #[derive(fmt::Debug, Clone, PartialEq)]
 pub struct ChordQuality {
@@ -12,10 +9,22 @@ pub struct ChordQuality {
 }
 
 impl ChordQuality {
-    pub fn new(name: &str, intervals: &[CanonicalInterval]) -> Self {
+    pub fn new(name: impl ToString, intervals: impl AsRef<[CanonicalInterval]>) -> Self {
         ChordQuality {
             name: name.to_string(),
-            intervals: Vec::from(intervals),
+            intervals: Vec::from(intervals.as_ref()),
+        }
+    }
+
+    pub fn from_intervals(name: impl ToString, intervals: impl AsRef<[u8]>) -> Self {
+        ChordQuality {
+            name: name.to_string(),
+            intervals: intervals
+                .as_ref()
+                .iter()
+                .cloned()
+                .map(CanonicalInterval::from)
+                .collect(),
         }
     }
 
@@ -44,15 +53,39 @@ impl fmt::Display for ChordQuality {
     }
 }
 
-pub mod triads {
-    use lazy_static::lazy_static;
-
-    use super::{
-        ChordQuality,
-        CanonicalInterval::*
+macro_rules! define_chords {
+    ($($name:ident = $label:literal [$($interval:expr),+],)*) => {
+        ::lazy_static::lazy_static! {
+            $(
+                pub static ref $name: $crate::chord::quality::ChordQuality =
+                    $crate::chord::quality::ChordQuality::from_intervals($label, &[$($interval),+]);
+            )*
+        }
     };
+}
 
-    lazy_static! {
-        static ref MAJOR: ChordQuality = ChordQuality::new("Major", &[MajorThird, MinorThird]);
+pub mod triads {
+    define_chords! {
+        MAJOR = "Maj" [4, 3],
+        MINOR = "Min" [3, 4],
+        DIMINISHED = "Dim" [3, 3],
+        AUGMENTED = "Aug" [4, 4],
+        SUSPENDED_2 = "Sus2" [2, 5],
+        PHRYGIAN = "Phr" [1, 6],
+        SUSPENDED_4 = "Sus4" [5, 2],
+        LYDIAN = "Lyd" [6, 1],
+    }
+}
+
+pub mod sevenths {
+    define_chords! {
+        DOMINANT = "Dom7" [4, 3, 3],
+        MAJOR = "Maj7" [4, 3, 4],
+        MINOR = "Min7" [3, 4, 3],
+        DIMINISHED = "Dim7" [3, 3, 3],
+        HALF_DIMINISHED = "Min7(b5)" [3, 3, 4],
+        AUGMENTED_DOMINANT = "Dom7(#5)" [4, 4, 2],
+        AUGMENTED_MAJOR = "Maj7(#5)" [4, 4, 3],
+        DIMINISHED_MAJOR = "Dim(Maj7)" [3, 3, 7],
     }
 }
