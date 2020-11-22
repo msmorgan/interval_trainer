@@ -1,15 +1,13 @@
-use crate::note_name::NoteName;
-use crate::accidental::Accidental;
-use crate::interval::canonical::CanonicalInterval;
-use std::{fmt, ops};
-use std::str::FromStr;
+use crate::{accidental::Accidental, interval::canonical::CanonicalInterval, note_name::NoteName};
+use std::{fmt, ops, str::FromStr};
 
 #[derive(fmt::Debug, Copy, Clone)]
 pub struct Note(pub NoteName, pub Accidental);
 
 impl Note {
     pub const fn from_pitch(pitch: u8) -> Option<Self> {
-        use {Accidental::*, NoteName::*};
+        use Accidental::*;
+        use NoteName::*;
         match pitch {
             0 => Some(Note(A, Natural)),
             1 => Some(Note(A, Sharp)),
@@ -96,7 +94,8 @@ impl FromStr for Note {
         if s.is_empty() {
             Err(UnrecognizedNote(s.to_string()))
         } else {
-            use {Accidental::*, NoteName::*};
+            use Accidental::*;
+            use NoteName::*;
 
             let note_name = match s.chars().next().unwrap().to_ascii_uppercase() {
                 'A' => A,
@@ -129,7 +128,8 @@ mod tests {
 
     #[test]
     fn note_equality() {
-        use {Accidental::*, NoteName::*};
+        use Accidental::*;
+        use NoteName::*;
         assert_eq!(Note(D, Sharp), Note(E, Flat));
     }
 }
