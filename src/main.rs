@@ -5,8 +5,6 @@ use std::{
     sync::{Arc, Mutex},
 };
 
-use rand::prelude::*;
-
 use crate::game::{mode::GameMode, scorekeeper::Scorekeeper};
 
 mod accidental;

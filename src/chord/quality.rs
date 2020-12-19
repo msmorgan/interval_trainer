@@ -8,6 +8,7 @@ pub struct ChordQuality {
     intervals: Vec<CanonicalInterval>,
 }
 
+#[allow(dead_code)]
 impl ChordQuality {
     pub fn new(name: impl ToString, intervals: impl AsRef<[CanonicalInterval]>) -> Self {
         ChordQuality {
