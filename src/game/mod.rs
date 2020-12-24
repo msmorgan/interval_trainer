@@ -1,3 +1,5 @@
+use once_cell::sync::Lazy;
+
 use crate::{
     chord::quality::ChordQuality,
     interval::canonical::CanonicalInterval,
@@ -53,27 +55,23 @@ const STANDARD_INTERVALS: [CanonicalInterval; 11] = {
     ]
 };
 
-lazy_static::lazy_static! {
-    static ref STANDARD_CHORD_QUALITIES: Vec<ChordQuality> = {
-        use crate::chord::quality::{sevenths, triads};
-        vec![
-            triads::MAJOR.clone(),
-            triads::MINOR.clone(),
-            triads::DIMINISHED.clone(),
-            triads::AUGMENTED.clone(),
-            sevenths::MAJOR.clone(),
-            sevenths::MINOR.clone(),
-            sevenths::DIMINISHED.clone(),
-            sevenths::HALF_DIMINISHED.clone(),
-            sevenths::DOMINANT.clone(),
-        ]
-    };
-}
+static STANDARD_CHORD_QUALITIES: Lazy<Vec<ChordQuality>> = Lazy::new(|| {
+    use crate::chord::quality::{sevenths, triads};
+    vec![
+        triads::MAJOR.clone(),
+        triads::MINOR.clone(),
+        triads::DIMINISHED.clone(),
+        triads::AUGMENTED.clone(),
+        sevenths::MAJOR.clone(),
+        sevenths::MINOR.clone(),
+        sevenths::DIMINISHED.clone(),
+        sevenths::HALF_DIMINISHED.clone(),
+        sevenths::DOMINANT.clone(),
+    ]
+});
 
-lazy_static::lazy_static! {
-    static ref STANDARD_SCALES: Vec<Scale> = vec![
-        Scale::from_intervals("Major", &[2, 2, 1, 2, 2, 2, 1]),
-        Scale::from_intervals("Minor", &[2, 1, 2, 2, 1, 2, 2]),
-        Scale::from_intervals("Harmonic Minor", &[2, 1, 2, 2, 1, 3, 1]),
-    ];
-}
+static STANDARD_SCALES: Lazy<Vec<Scale>> = Lazy::new(|| vec![
+    Scale::from_intervals("Major", &[2, 2, 1, 2, 2, 2, 1]),
+    Scale::from_intervals("Minor", &[2, 1, 2, 2, 1, 2, 2]),
+    Scale::from_intervals("Harmonic Minor", &[2, 1, 2, 2, 1, 3, 1]),
+]);

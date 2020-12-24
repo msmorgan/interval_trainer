@@ -56,15 +56,16 @@ impl fmt::Display for ChordQuality {
 
 macro_rules! define_chords {
     ($($name:ident = $label:literal [$($interval:expr),+],)*) => {
-        ::lazy_static::lazy_static! {
-            $(
-                pub static ref $name: $crate::chord::quality::ChordQuality =
-                    $crate::chord::quality::ChordQuality::from_intervals($label, &[$($interval),+]);
-            )*
-        }
+        $(
+            pub static $name: ::once_cell::sync::Lazy<$crate::chord::quality::ChordQuality> =
+                ::once_cell::sync::Lazy::new(|| {
+                    $crate::chord::quality::ChordQuality::from_intervals($label, &[$($interval),+])
+                });
+        )*
     };
 }
 
+#[allow(dead_code)]
 pub mod triads {
     define_chords! {
         MAJOR = "Maj" [4, 3],
@@ -78,6 +79,7 @@ pub mod triads {
     }
 }
 
+#[allow(dead_code)]
 pub mod sevenths {
     define_chords! {
         DOMINANT = "Dom7" [4, 3, 3],
