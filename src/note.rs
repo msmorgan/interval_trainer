@@ -1,14 +1,16 @@
 use std::{fmt, ops, str::FromStr};
 
-use crate::{accidental::Accidental, interval::canonical::CanonicalInterval, note_name::NoteName};
+use crate::{
+    accidental::Accidental::{self, *},
+    interval::canonical::CanonicalInterval,
+    note_name::NoteName::{self, *},
+};
 
 #[derive(fmt::Debug, Copy, Clone)]
 pub struct Note(pub NoteName, pub Accidental);
 
 impl Note {
     pub const fn from_pitch(pitch: u8) -> Option<Self> {
-        use Accidental::*;
-        use NoteName::*;
         match pitch {
             0 => Some(Note(A, Natural)),
             1 => Some(Note(A, Sharp)),
@@ -36,6 +38,30 @@ impl Note {
 
     pub const fn pitch(self) -> u8 {
         (12 + self.note_name().pitch() as i8 + self.accidental().interval()) as u8 % 12
+    }
+
+    pub fn enharmonic(self) -> Self {
+        let result = match self.accidental() {
+            Natural => self,
+            DoubleFlat | DoubleSharp => Note::from_pitch(self.pitch()).unwrap(),
+            Flat => Note(
+                self.note_name().step_down(),
+                match self.note_name() {
+                    C | F => Natural,
+                    _ => Sharp,
+                },
+            ),
+            Sharp => Note(
+                self.note_name().step_up(),
+                match self.note_name() {
+                    B | E => Natural,
+                    _ => Flat,
+                },
+            ),
+        };
+        assert_eq!(result.pitch(), self.pitch());
+
+        result
     }
 }
 
@@ -128,7 +154,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn note_equality() {
+    fn test_note_equality() {
         use self::{Accidental::*, NoteName::*};
         assert_eq!(Note(D, Sharp), Note(E, Flat));
     }

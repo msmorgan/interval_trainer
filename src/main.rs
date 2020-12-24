@@ -12,6 +12,7 @@ mod game;
 mod interval;
 mod note;
 mod note_name;
+mod scale;
 
 #[derive(fmt::Debug)]
 struct Options {
@@ -26,8 +27,26 @@ impl Default for Options {
     }
 }
 
+fn get_options() -> Options {
+    let mut args = std::env::args();
+    let process_name = args.next().unwrap();
+    let mode_arg = args.next();
+    Options {
+        mode: match mode_arg.as_ref().map(|s| s.as_str()) {
+            None | Some("mixed") => GameMode::Mixed,
+            Some("intervals") => GameMode::Intervals,
+            Some("chords") => GameMode::Chords,
+            Some("scales") => GameMode::Scales,
+            Some(_) => {
+                eprintln!("Usage: {} [mixed|intervals|chords|scales]", process_name);
+                std::process::exit(1);
+            }
+        },
+    }
+}
+
 fn main() {
-    let options = Options::default();
+    let options = get_options();
     let scorekeeper = Arc::new(Mutex::new(Scorekeeper::new()));
 
     {

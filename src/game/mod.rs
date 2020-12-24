@@ -1,4 +1,9 @@
-use crate::{chord::quality::ChordQuality, interval::canonical::CanonicalInterval, note::Note};
+use crate::{
+    chord::quality::ChordQuality,
+    interval::canonical::CanonicalInterval,
+    note::Note,
+    scale::Scale,
+};
 
 pub mod mode;
 pub mod round;
@@ -63,4 +68,12 @@ lazy_static::lazy_static! {
             sevenths::DOMINANT.clone(),
         ]
     };
+}
+
+lazy_static::lazy_static! {
+    static ref STANDARD_SCALES: Vec<Scale> = vec![
+        Scale::from_intervals("Major", &[2, 2, 1, 2, 2, 2, 1]),
+        Scale::from_intervals("Minor", &[2, 1, 2, 2, 1, 2, 2]),
+        Scale::from_intervals("Harmonic Minor", &[2, 1, 2, 2, 1, 3, 1]),
+    ];
 }
