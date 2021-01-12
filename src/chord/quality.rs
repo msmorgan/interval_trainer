@@ -1,6 +1,7 @@
 use std::fmt;
 
-use crate::{interval::canonical::CanonicalInterval, note::Note};
+use crate::interval::canonical::CanonicalInterval;
+use crate::note::Note;
 
 #[derive(fmt::Debug, Clone, PartialEq)]
 pub struct ChordQuality {

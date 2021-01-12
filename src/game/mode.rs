@@ -1,11 +1,10 @@
 use std::fmt;
 
-use rand::{seq::SliceRandom, Rng};
+use rand::seq::SliceRandom;
+use rand::Rng;
 
-use crate::game::{
-    round::{ChordsRound, IntervalsRound, Round, ScalesRound},
-    scorekeeper::Scorekeeper,
-};
+use crate::game::round::{ChordsRound, IntervalsRound, Round, ScalesRound};
+use crate::game::scorekeeper::Scorekeeper;
 
 #[derive(fmt::Debug, Copy, Clone)]
 pub enum GameMode {

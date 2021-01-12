@@ -1,10 +1,9 @@
-use std::{
-    fmt,
-    ops::DerefMut,
-    sync::{Arc, Mutex},
-};
+use std::fmt;
+use std::ops::DerefMut;
+use std::sync::{Arc, Mutex};
 
-use crate::game::{mode::GameMode, scorekeeper::Scorekeeper};
+use crate::game::mode::GameMode;
+use crate::game::scorekeeper::Scorekeeper;
 
 mod accidental;
 mod chord;

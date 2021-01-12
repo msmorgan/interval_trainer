@@ -1,4 +1,5 @@
-use crate::{interval::canonical::CanonicalInterval, note::Note};
+use crate::interval::canonical::CanonicalInterval;
+use crate::note::Note;
 
 pub mod modal;
 pub mod mode;

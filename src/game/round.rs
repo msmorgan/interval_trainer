@@ -1,20 +1,19 @@
-use std::{
-    borrow::Cow,
-    io::{self, prelude::*},
-    time::Duration,
-};
+use std::borrow::Cow;
+use std::io::self;
+use std::io::prelude::*;
+use std::time::Duration;
 
 use either::*;
 use rand::prelude::*;
 
 use super::{STANDARD_CHORD_QUALITIES, STANDARD_INTERVALS, STANDARD_NOTES, STANDARD_SCALES};
-use crate::{
-    chord::quality::ChordQuality,
-    game::scorekeeper::Scorekeeper,
-    interval::canonical::CanonicalInterval,
-    note::{Note, UnrecognizedNote},
-    scale::{modal::ModalScale, mode::Mode, Scale},
-};
+use crate::chord::quality::ChordQuality;
+use crate::game::scorekeeper::Scorekeeper;
+use crate::interval::canonical::CanonicalInterval;
+use crate::note::{Note, UnrecognizedNote};
+use crate::scale::modal::ModalScale;
+use crate::scale::mode::Mode;
+use crate::scale::Scale;
 
 fn get_next_input() -> io::Result<Option<String>> {
     let mut buf = String::new();

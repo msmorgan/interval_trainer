@@ -1,10 +1,9 @@
-use std::{fmt, ops, str::FromStr};
+use std::str::FromStr;
+use std::{fmt, ops};
 
-use crate::{
-    accidental::Accidental::{self, *},
-    interval::canonical::CanonicalInterval,
-    note_name::NoteName::{self, *},
-};
+use crate::accidental::Accidental::{self, *};
+use crate::interval::canonical::CanonicalInterval;
+use crate::note_name::NoteName::{self, *};
 
 #[derive(fmt::Debug, Copy, Clone)]
 pub struct Note(pub NoteName, pub Accidental);
@@ -155,7 +154,8 @@ mod tests {
 
     #[test]
     fn test_note_equality() {
-        use self::{Accidental::*, NoteName::*};
+        use self::Accidental::*;
+        use self::NoteName::*;
         assert_eq!(Note(D, Sharp), Note(E, Flat));
     }
 }

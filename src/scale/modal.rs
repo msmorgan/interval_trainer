@@ -1,7 +1,6 @@
-use crate::{
-    note::Note,
-    scale::{mode::Mode, Scale},
-};
+use crate::note::Note;
+use crate::scale::mode::Mode;
+use crate::scale::Scale;
 
 pub struct ModalScale {
     pub scale: Scale,
@@ -24,7 +23,8 @@ mod tests {
 
     #[test]
     fn test_spell() {
-        use crate::{accidental::Accidental::*, note_name::NoteName::*};
+        use crate::accidental::Accidental::*;
+        use crate::note_name::NoteName::*;
 
         let minor_scale = ModalScale::new(
             Scale::from_intervals("Major", &[2, 2, 1, 2, 2, 2, 1]),

@@ -1,18 +1,17 @@
 use once_cell::sync::Lazy;
 
-use crate::{
-    chord::quality::ChordQuality,
-    interval::canonical::CanonicalInterval,
-    note::Note,
-    scale::Scale,
-};
+use crate::chord::quality::ChordQuality;
+use crate::interval::canonical::CanonicalInterval;
+use crate::note::Note;
+use crate::scale::Scale;
 
 pub mod mode;
 pub mod round;
 pub mod scorekeeper;
 
 const STANDARD_NOTES: [Note; 17] = {
-    use crate::{accidental::Accidental::*, note_name::NoteName::*};
+    use crate::accidental::Accidental::*;
+    use crate::note_name::NoteName::*;
 
     let mut result = [Note(C, Natural); 17];
     let mut pitch = 0;
@@ -70,8 +69,10 @@ static STANDARD_CHORD_QUALITIES: Lazy<Vec<ChordQuality>> = Lazy::new(|| {
     ]
 });
 
-static STANDARD_SCALES: Lazy<Vec<Scale>> = Lazy::new(|| vec![
-    Scale::from_intervals("Major", &[2, 2, 1, 2, 2, 2, 1]),
-    Scale::from_intervals("Minor", &[2, 1, 2, 2, 1, 2, 2]),
-    Scale::from_intervals("Harmonic Minor", &[2, 1, 2, 2, 1, 3, 1]),
-]);
+static STANDARD_SCALES: Lazy<Vec<Scale>> = Lazy::new(|| {
+    vec![
+        Scale::from_intervals("Major", &[2, 2, 1, 2, 2, 2, 1]),
+        Scale::from_intervals("Minor", &[2, 1, 2, 2, 1, 2, 2]),
+        Scale::from_intervals("Harmonic Minor", &[2, 1, 2, 2, 1, 3, 1]),
+    ]
+});
