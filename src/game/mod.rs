@@ -56,6 +56,7 @@ const STANDARD_INTERVALS: [CanonicalInterval; 11] = {
 
 static STANDARD_CHORD_QUALITIES: Lazy<Vec<ChordQuality>> = Lazy::new(|| {
     use crate::chord::quality::{sevenths, triads};
+
     vec![
         triads::MAJOR.clone(),
         triads::MINOR.clone(),

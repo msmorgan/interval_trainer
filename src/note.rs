@@ -1,15 +1,22 @@
 use std::str::FromStr;
 use std::{fmt, ops};
 
-use crate::accidental::Accidental::{self, *};
+use crate::accidental::Accidental;
 use crate::interval::canonical::CanonicalInterval;
-use crate::note_name::NoteName::{self, *};
+use crate::note_name::NoteName;
 
 #[derive(fmt::Debug, Copy, Clone)]
 pub struct Note(pub NoteName, pub Accidental);
 
+mod prelude {
+    pub use crate::accidental::Accidental::*;
+    pub use crate::note_name::NoteName::*;
+}
+
 impl Note {
     pub const fn from_pitch(pitch: u8) -> Option<Self> {
+        use self::prelude::*;
+
         match pitch {
             0 => Some(Note(A, Natural)),
             1 => Some(Note(A, Sharp)),
@@ -40,6 +47,8 @@ impl Note {
     }
 
     pub fn enharmonic(self) -> Self {
+        use self::prelude::*;
+
         let result = match self.accidental() {
             Natural => self,
             DoubleFlat | DoubleSharp => Note::from_pitch(self.pitch()).unwrap(),
@@ -120,8 +129,7 @@ impl FromStr for Note {
         if s.is_empty() {
             Err(UnrecognizedNote(s.to_string()))
         } else {
-            use Accidental::*;
-            use NoteName::*;
+            use self::prelude::*;
 
             let note_name = match s.chars().next().unwrap().to_ascii_uppercase() {
                 'A' => A,

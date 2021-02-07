@@ -1,5 +1,5 @@
 use std::borrow::Cow;
-use std::io::self;
+use std::io;
 use std::io::prelude::*;
 use std::time::Duration;
 
@@ -174,7 +174,11 @@ impl Round for ScalesRound {
                     Left(scale) => scale.spell(self.root_note),
                     Right(modal_scale) => modal_scale.spell(self.root_note),
                 };
-                let correct = notes == expected;
+                let expected_with_root: Vec<_> =
+                    expected.iter().chain(Some(&self.root_note)).collect();
+
+                let correct =
+                    notes == expected || notes.iter().collect::<Vec<_>>() == expected_with_root;
                 let duration = scorekeeper.add_result(correct);
                 feedback_expected_notes(expected, correct, duration)
             }
