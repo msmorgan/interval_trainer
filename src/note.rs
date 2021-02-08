@@ -129,25 +129,23 @@ impl FromStr for Note {
         if s.is_empty() {
             Err(UnrecognizedNote(s.to_string()))
         } else {
-            use self::prelude::*;
-
             let note_name = match s.chars().next().unwrap().to_ascii_uppercase() {
-                'A' => A,
-                'B' => B,
-                'C' => C,
-                'D' => D,
-                'E' => E,
-                'F' => F,
-                'G' => G,
+                'A' => NoteName::A,
+                'B' => NoteName::B,
+                'C' => NoteName::C,
+                'D' => NoteName::D,
+                'E' => NoteName::E,
+                'F' => NoteName::F,
+                'G' => NoteName::G,
                 _ => return Err(UnrecognizedNote(s.to_string())),
             };
 
             let accidental = match &s[1..] {
-                "bb" => DoubleFlat,
-                "b" => Flat,
-                "" => Natural,
-                "#" => Sharp,
-                "##" => DoubleSharp,
+                "bb" => Accidental::DoubleFlat,
+                "b" => Accidental::Flat,
+                "" => Accidental::Natural,
+                "#" => Accidental::Sharp,
+                "##" => Accidental::DoubleSharp,
                 _ => return Err(UnrecognizedNote(s.to_string())),
             };
 

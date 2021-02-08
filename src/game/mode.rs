@@ -1,17 +1,24 @@
-use std::fmt;
-
+use clap::arg_enum;
 use rand::seq::SliceRandom;
 use rand::Rng;
 
 use crate::game::round::{ChordsRound, IntervalsRound, Round, ScalesRound};
 use crate::game::scorekeeper::Scorekeeper;
 
-#[derive(fmt::Debug, Copy, Clone)]
-pub enum GameMode {
-    Mixed,
-    Intervals,
-    Chords,
-    Scales,
+arg_enum! {
+    #[derive(Debug, Copy, Clone)]
+    pub enum GameMode {
+        Mixed,
+        Intervals,
+        Chords,
+        Scales,
+    }
+}
+
+impl Default for GameMode {
+    fn default() -> Self {
+        GameMode::Mixed
+    }
 }
 
 impl GameMode {

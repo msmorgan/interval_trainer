@@ -1,4 +1,3 @@
-use std::fmt;
 use std::ops::DerefMut;
 use std::sync::{Arc, Mutex};
 
@@ -13,8 +12,10 @@ mod note;
 mod note_name;
 mod scale;
 
-#[derive(fmt::Debug)]
+#[derive(Debug, structopt::StructOpt)]
+#[structopt(rename_all = "kebab-case")]
 struct Options {
+    #[structopt(default_value)]
     mode: GameMode,
 }
 
@@ -26,26 +27,8 @@ impl Default for Options {
     }
 }
 
-fn get_options() -> Options {
-    let mut args = std::env::args();
-    let process_name = args.next().unwrap();
-    let mode_arg = args.next();
-    Options {
-        mode: match mode_arg.as_ref().map(|s| s.as_str()) {
-            None | Some("mixed") => GameMode::Mixed,
-            Some("intervals") => GameMode::Intervals,
-            Some("chords") => GameMode::Chords,
-            Some("scales") => GameMode::Scales,
-            Some(_) => {
-                eprintln!("Usage: {} [mixed|intervals|chords|scales]", process_name);
-                std::process::exit(1);
-            }
-        },
-    }
-}
-
-fn main() {
-    let options = get_options();
+#[paw::main]
+fn main(options: Options) {
     let scorekeeper = Arc::new(Mutex::new(Scorekeeper::new()));
 
     {
