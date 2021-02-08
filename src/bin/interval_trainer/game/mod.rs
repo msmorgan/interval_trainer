@@ -1,17 +1,16 @@
+use music_exercises::chord::quality::ChordQuality;
+use music_exercises::interval::canonical::CanonicalInterval;
+use music_exercises::note::Note;
+use music_exercises::scale::Scale;
 use once_cell::sync::Lazy;
-
-use crate::chord::quality::ChordQuality;
-use crate::interval::canonical::CanonicalInterval;
-use crate::note::Note;
-use crate::scale::Scale;
 
 pub mod mode;
 pub mod round;
 pub mod scorekeeper;
 
 const STANDARD_NOTES: [Note; 17] = {
-    use crate::accidental::Accidental::*;
-    use crate::note_name::NoteName::*;
+    use music_exercises::accidental::Accidental::*;
+    use music_exercises::note_name::NoteName::*;
 
     let mut result = [Note(C, Natural); 17];
     let mut pitch = 0;
@@ -38,7 +37,7 @@ const STANDARD_NOTES: [Note; 17] = {
 };
 
 const STANDARD_INTERVALS: [CanonicalInterval; 11] = {
-    use crate::interval::canonical::CanonicalInterval::*;
+    use music_exercises::interval::canonical::CanonicalInterval::*;
     [
         MinorSecond,
         MajorSecond,
@@ -55,7 +54,7 @@ const STANDARD_INTERVALS: [CanonicalInterval; 11] = {
 };
 
 static STANDARD_CHORD_QUALITIES: Lazy<Vec<ChordQuality>> = Lazy::new(|| {
-    use crate::chord::quality::{sevenths, triads};
+    use music_exercises::chord::quality::{sevenths, triads};
 
     vec![
         triads::MAJOR.clone(),

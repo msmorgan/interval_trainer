@@ -1,8 +1,10 @@
 use std::ops::DerefMut;
 use std::sync::{Arc, Mutex};
 
-use interval_trainer::game::mode::GameMode;
-use interval_trainer::game::scorekeeper::Scorekeeper;
+use crate::game::mode::GameMode;
+use crate::game::scorekeeper::Scorekeeper;
+
+mod game;
 
 #[derive(Debug, structopt::StructOpt)]
 #[structopt(rename_all = "kebab-case")]
